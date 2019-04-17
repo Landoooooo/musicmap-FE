@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 export const GET_USERS_QUERY = gql`
-query{
+query {
     users {
       id
       email_address
@@ -13,21 +13,30 @@ query{
   }
 `
 
-const Users = () => (
-    <Query query={GET_USERS_QUERY}>
-        {({ loading, error, data }) => {
-            if (loading) return <Text>"Loading..."</Text>
-            if (error) return <Text>Error! ${error.message}</Text>;
-            console.log("User ID", data.users.id)
-            return (
-                <View>
-                    {data.users.map(user => {
-                        <Text>{user.email_address}</Text>
-                    })}
-                </View>
-            );
-        }}
-    </Query>
-);
+export default class Users extends React.Component{
+    render() {
+        return (
+          <Query
+            query={GET_USERS_QUERY}
+          >
+            {
+              ({data, error, loading}) => {
+                if (error || loading) {
+                  return <View><Text>Loading...</Text></View>
+                }
+                return (
+                  <ScrollView>
+                    <FlatList
+                      data={data.users}
+                      renderItem={({item}) => <Text>{item.email_address}</Text>}
+                      keyExtractor={(item) => item.id.toString()}
+                    />
+                  </ScrollView>
+                )
+              }
+            }
+          </Query>
+        )
+      }
+}
 
-export default Users;
