@@ -18,7 +18,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <Users />
+      <Users/>
     );
   }
 }

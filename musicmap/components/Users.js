@@ -25,13 +25,11 @@ export default class Users extends React.Component{
                   return <View><Text>Loading...</Text></View>
                 }
                 return (
-                  <ScrollView>
-                    <FlatList
-                      data={data.users}
-                      renderItem={({item}) => <Text>{item.email_address}</Text>}
-                      keyExtractor={(item) => item.id.toString()}
-                    />
-                  </ScrollView>
+                  <FlatList contentContainerStyle={{flex:1, justifyContent:"center", alignItems:"center"}}
+                    data={data.users}
+                    renderItem={({item}) => <Text>{item.email_address}</Text>}
+                    keyExtractor={(item) => item.id.toString()}
+                  />
                 )
               }
             }
