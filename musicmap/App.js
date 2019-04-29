@@ -4,7 +4,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-
+import Login from './components/Login';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -23,7 +23,7 @@ export default class App extends React.Component {
       <ApolloProvider client={client}>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <Login />
         </View>
       </ApolloProvider>
     );
