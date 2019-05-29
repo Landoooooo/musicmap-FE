@@ -19,7 +19,7 @@ class SignInOrSignUp extends React.Component{
                 <h2>Login</h2>
                 <div>
                     <GoogleLogin
-                        clientId="643322048982-cfbe4no6h68gl7fhibso71oo7lvafcui.apps.googleusercontent.com"
+                        clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
                         onSuccess={this.onSuccess}
                         onFailure={this.onSuccess}
                     />
