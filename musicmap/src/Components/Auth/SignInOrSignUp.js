@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
 import { GoogleLogin } from 'react-google-login'
 
 class SignInOrSignUp extends React.Component{
@@ -11,18 +12,21 @@ class SignInOrSignUp extends React.Component{
 
     onSuccess = googleUser => {
         console.log(googleUser)
+        if(googleUser){
+            this.props.history.push('/dashboard')
+        }
     }
 
     render(){
         return(
             <div>
-                <h2>SignUp</h2>
-
+                <div>
+                    <h1>Welcome to MusicMap!</h1>
+                </div>
                 <div>
                     <GoogleLogin
-                        clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+                        clientId="643322048982-cfbe4no6h68gl7fhibso71oo7lvafcui.apps.googleusercontent.com"
                         onSuccess={this.onSuccess}
-                        onFailure={this.onSuccess}
                     />
                 </div>
             </div>

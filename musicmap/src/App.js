@@ -1,15 +1,15 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import SignInOrSignUp from './Components/Auth/SignInOrSignUp';
+import Dashboard from './Components/Dashboard/Dashboard';
 import './App.css';
-require('dotenv').config()
+
 
 function App() {
   return (
     <div className="App">
-      <div>
-        <h1>Welcome to MusicMap!</h1>
-      </div>
-      <SignInOrSignUp/>
+      <Route exact path="/" component={SignInOrSignUp}/>
+      <Route path="/dashboard" component={Dashboard}/>
     </div>
   );
 }
