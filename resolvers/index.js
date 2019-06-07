@@ -1,0 +1,1 @@
+const GMR = require("graphql-merge-resolvers");
