@@ -18,6 +18,7 @@ class SignInOrSignUp extends React.Component{
     }
 
     render(){
+        console.log(process.env.REACT_APP_OAUTH_CLIENT_ID)
         return(
             <div>
                 <div>
