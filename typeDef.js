@@ -25,7 +25,7 @@ module.exports = gql`
         username: String!
         location: String!
         type: String!
-        profile_photo: String!
+        profile_photo: String
     }
 
     type Status {
@@ -44,7 +44,7 @@ module.exports = gql`
         username: String!
         location: String!
         type: String!
-        profile_photo: String!
+        profile_photo: String
 
     }
 `;
