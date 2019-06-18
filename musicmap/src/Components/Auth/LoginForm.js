@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Dropzone from 'react-dropzone';
 
 class LoginForm extends React.Component {
     constructor(props){
@@ -36,6 +37,12 @@ class LoginForm extends React.Component {
 
         this.props.handleChange(e.target.name, e.target.value)
     }
+
+    onDrop = async file => {
+        this.setState({
+            profile_photo: file[0]
+        });
+    }
     render(){
         return (
             <div>
@@ -43,13 +50,23 @@ class LoginForm extends React.Component {
                     <div>
                         <h1>Sign Up</h1>
                         <form onSubmit={this.bundleUserInfo}>
+                        <Dropzone onDrop={this.onDrop}>
+                            {({getRootProps, getInputProps}) => (
+                            <section className="container">
+                                <div {...getRootProps({className: 'dropzone'})}>
+                                <input {...getInputProps()} />
+                                <p>Upload profile photo</p>
+                                </div>
+                            </section>
+                            )}
+                        </Dropzone>
                             <TextField
-                            id="email"
-                            name="email"
-                            label="email"
-                            value={this.state.email}
-                            margin="dense"
-                            onChange={this.handleChange}
+                                id="email"
+                                name="email"
+                                label="email"
+                                value={this.state.email}
+                                margin="dense"
+                                onChange={this.handleChange}
                             />
                             <TextField
                                 id="firstName"
