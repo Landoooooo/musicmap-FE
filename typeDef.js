@@ -13,6 +13,9 @@ module.exports = gql`
         addUser(input: UserInput!): User!
         updateUser(id: ID!, input: UserInput!): User!
         deleteUser(id: ID!): Int!
+
+        #//*AWS
+        signS3(filename: String!, filetype: String!): S3Payload!
     }
 
     scalar Date
@@ -37,6 +40,11 @@ module.exports = gql`
         audio: String!
     }
 
+    type S3Payload {
+        signedRequest: String!,
+        url: String!
+    }
+
     input UserInput {
         email: String!
         firstName: String!
@@ -47,4 +55,5 @@ module.exports = gql`
         profile_photo: String
 
     }
+
 `;

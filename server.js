@@ -3,9 +3,12 @@ const typeDefs = require("./typeDef");
 const { findOrCreateUser } = require("./controllers/userController");
 const resolvers = require("./resolvers/index");
 
-require("dotenv/config");
+require("dotenv").config();
+
+console.log(require("dotenv").config())
 
 const server = new ApolloServer({
+    cors: true,
     typeDefs,
     resolvers,
     introspection: true,
