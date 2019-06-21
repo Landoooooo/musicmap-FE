@@ -17,6 +17,9 @@ const httpLink = createHttpLink({
 
 const client = new ApolloClient({
     link: httpLink,
+    fetchOptions: {
+        mode: 'no-cors'
+    },
     cache: new InMemoryCache()
 })
 

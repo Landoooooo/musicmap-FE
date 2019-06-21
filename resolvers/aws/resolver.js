@@ -26,7 +26,7 @@ module.exports = {
 
             const signedRequest = await s3.getSignedUrl('putObject', s3Params);
             console.log(signedRequest)
-            const url = `https://musicmap.s3.amazonaws.com/${filename}`;
+            const url = `https://musicmap.s3.us-west-1.amazonaws.com/${filename}`;
             console.log(url)
 
             return {

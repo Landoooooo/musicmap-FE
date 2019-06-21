@@ -8,11 +8,11 @@ require("dotenv").config();
 console.log(require("dotenv").config())
 
 const server = new ApolloServer({
-    cors: true,
     typeDefs,
     resolvers,
     introspection: true,
     playground: true,
+    cors: true,
     context: async({ req }) => {
         let authToken = null;
         let currentUser = null;
