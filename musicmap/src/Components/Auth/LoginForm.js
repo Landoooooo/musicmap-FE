@@ -7,6 +7,12 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import axios from "axios";
 import ApolloClient from 'apollo-boost';
+// Import Search Bar Components
+import SearchBar from 'material-ui-search-bar';
+
+//Import React Scrit Libraray to load Google object
+import Script from 'react-load-script';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 
 class LoginForm extends React.Component {
@@ -18,8 +24,46 @@ class LoginForm extends React.Component {
             lastName: "",
             username: "",
             location: "",
+            query: "",
             type: "",
             profile_photo: ""
+        }
+    }
+
+    handleScriptLoad() {
+        // Declare Options For Autocomplete
+        const options = { types: ['(cities)'] };
+
+        // Initialize Google Autocomplete
+        /*global google*/
+        const autocomplete = new google.maps.places.Autocomplete(
+                              document.getElementById("autocomplete"),
+                              options );
+        // Fire Event when a suggested name is selected
+        autocomplete.addListener('place_changed', this.handlePlaceSelect);
+    }
+
+    handlePlaceSelect() {
+
+        const options = { types: ['(cities)'] };
+
+        const autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById("autocomplete"),
+            options );
+
+        // Extract City From Address Object
+        let addressObject = autocomplete.getPlace();
+        let address = addressObject.address_components;
+
+        // Check if address is valid
+        if (address) {
+            // Set State
+            this.setState(
+            {
+                location: address[0].long_name,
+                query: addressObject.formatted_address,
+            }
+            );
         }
     }
 
@@ -75,7 +119,7 @@ class LoginForm extends React.Component {
             })
 
             this.uploadToS3(profile_photo, signedRequest)
-            
+
         }).catch( err => console.log(err))
 
         this.props.addUser(user)
@@ -96,6 +140,9 @@ class LoginForm extends React.Component {
     render(){
         return (
             <div>
+                <Script url="https://maps.googleapis.com/maps/api/js?key=AIzaSyByD3q3i9ev2A_Tak9hIXNrnT-39f_pop4&libraries=places"
+                onLoad={this.handleScriptLoad}
+                />
                 {this.props.addUser ? (
                     <div>
                         <h1>Sign Up</h1>
@@ -143,14 +190,15 @@ class LoginForm extends React.Component {
                                 margin="dense"
                                 onChange={this.handleChange}
                             />
-                            <TextField
-                                id="location"
-                                name="location"
-                                label="Location"
-                                value={this.state.location}
-                                margin="dense"
-                                onChange={this.handleChange}
-                            />
+                            <MuiThemeProvider>
+                                <SearchBar id="autocomplete" placeholder="" hintText="Search City" value={this.state.query}
+                                    style={{
+                                        margin: '0 auto',
+                                        maxWidth: 800,
+                                    }}
+                                />
+                            </MuiThemeProvider>
+
                             <TextField
                                 id="type"
                                 name="type"

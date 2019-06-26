@@ -46,6 +46,10 @@ class SignInOrSignUp extends React.Component{
         }
     }
 
+    componentDidMount(){
+      console.log(process.env.REACT_APP_PLACES_API_KEY)
+    }
+
     onSuccess = async googleUser => {
     const email = googleUser.profileObj.email;
     const idToken = googleUser.getAuthResponse().id_token;
