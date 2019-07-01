@@ -7,12 +7,10 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import axios from "axios";
 import ApolloClient from 'apollo-boost';
-// Import Search Bar Components
-import SearchBar from 'material-ui-search-bar';
-
-//Import React Scrit Libraray to load Google object
-import Script from 'react-load-script';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng,
+  } from 'react-places-autocomplete';
 
 
 class LoginForm extends React.Component {
@@ -30,41 +28,15 @@ class LoginForm extends React.Component {
         }
     }
 
-    handleScriptLoad() {
-        // Declare Options For Autocomplete
-        const options = { types: ['(cities)'] };
+    handleSelect = address => {
+        geocodeByAddress(address)
+          .then(results => getLatLng(results[0]))
+          .then(latLng => console.log('Success', latLng))
+          .catch(error => console.error('Error', error));
+    };
 
-        // Initialize Google Autocomplete
-        /*global google*/
-        const autocomplete = new google.maps.places.Autocomplete(
-                              document.getElementById("autocomplete"),
-                              options );
-        // Fire Event when a suggested name is selected
-        autocomplete.addListener('place_changed', this.handlePlaceSelect);
-    }
-
-    handlePlaceSelect() {
-
-        const options = { types: ['(cities)'] };
-
-        const autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById("autocomplete"),
-            options );
-
-        // Extract City From Address Object
-        let addressObject = autocomplete.getPlace();
-        let address = addressObject.address_components;
-
-        // Check if address is valid
-        if (address) {
-            // Set State
-            this.setState(
-            {
-                location: address[0].long_name,
-                query: addressObject.formatted_address,
-            }
-            );
-        }
+    handleSelection = location => {
+        this.setState({ location })
     }
 
     uploadToS3 = async (file, signedRequest) => {
@@ -140,9 +112,6 @@ class LoginForm extends React.Component {
     render(){
         return (
             <div>
-                <Script url="https://maps.googleapis.com/maps/api/js?key=AIzaSyByD3q3i9ev2A_Tak9hIXNrnT-39f_pop4&libraries=places"
-                onLoad={this.handleScriptLoad}
-                />
                 {this.props.addUser ? (
                     <div>
                         <h1>Sign Up</h1>
@@ -190,15 +159,45 @@ class LoginForm extends React.Component {
                                 margin="dense"
                                 onChange={this.handleChange}
                             />
-                            <MuiThemeProvider>
-                                <SearchBar id="autocomplete" placeholder="" hintText="Search City" value={this.state.query}
-                                    style={{
-                                        margin: '0 auto',
-                                        maxWidth: 800,
-                                    }}
-                                />
-                            </MuiThemeProvider>
-
+                            <PlacesAutocomplete
+                                value={this.state.location}
+                                onChange={this.handleSelection}
+                                onSelect={this.handleSelect}
+                            >
+                                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <div>
+                                    <input
+                                    {...getInputProps({
+                                        placeholder: 'Search Places ...',
+                                        className: 'location-search-input',
+                                    })}
+                                    />
+                                    <div className="autocomplete-dropdown-container">
+                                    {loading && <div>Loading...</div>}
+                                    {suggestions.map(suggestion => {
+                                        const className = suggestion.active
+                                        ? 'suggestion-item--active'
+                                        : 'suggestion-item';
+                                        // inline style for demonstration purpose
+                                        const style = suggestion.active
+                                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                        : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                                        return (
+                                        <div
+                                            {...getSuggestionItemProps(suggestion, {
+                                            className,
+                                            style,
+                                            })}
+                                        >
+                                            <span>{suggestion.description}</span>
+                                        </div>
+                                        );
+                                    })}
+                                    </div>
+                                </div>
+                                )}
+                            </PlacesAutocomplete>
+                            
                             <TextField
                                 id="type"
                                 name="type"
