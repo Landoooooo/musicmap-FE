@@ -1,4 +1,7 @@
 import React from 'react';
+import Recommended from './Recommended';
+import Feed from './Feed';
+import BottomNav from '../BottomNav/BottomNav';
 
 class Dashboard extends React.Component{
     constructor(props){
@@ -11,39 +14,9 @@ class Dashboard extends React.Component{
     render(){
         return(
             <div>
-                <div className="recommend-artist">
-                    <h1>Work with these artists</h1>
-                    <div>
-                        <div>
-                            <div>
-                                <div>Photo</div>
-                                <h2>Artist name</h2>
-                            </div>
-                            <div>
-                                <div>Photo</div>
-                                <h2>Artist name</h2>
-                            </div>
-                            <div>
-                                <div>Photo</div>
-                                <h2>Artist name</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="feed">
-                    <div>
-                        <h2>artist posted new content</h2>
-                        <div>Photo</div>
-                    </div>
-                    <div>
-                        <h2>artist posted new content</h2>
-                        <div>Photo</div>
-                    </div>
-                    <div>
-                        <h2>artist posted new content</h2>
-                        <div>Photo</div>
-                    </div>
-                </div>
+                <Recommended/>
+                <Feed/>
+                <BottomNav/>
             </div>
         )
     }

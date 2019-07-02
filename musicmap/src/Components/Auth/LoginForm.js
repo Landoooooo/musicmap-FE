@@ -29,6 +29,7 @@ class LoginForm extends React.Component {
     }
 
     handleSelect = address => {
+        this.setState({location: address})
         geocodeByAddress(address)
           .then(results => getLatLng(results[0]))
           .then(latLng => console.log('Success', latLng))
@@ -36,6 +37,7 @@ class LoginForm extends React.Component {
     };
 
     handleSelection = location => {
+        console.log(location)
         this.setState({ location })
     }
 
@@ -197,7 +199,7 @@ class LoginForm extends React.Component {
                                 </div>
                                 )}
                             </PlacesAutocomplete>
-                            
+
                             <TextField
                                 id="type"
                                 name="type"
