@@ -1,17 +1,19 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import { NavLink } from "react-router-dom";
+import BottomNav from '../BottomNav/BottomNav';
 
-const Upload = () => (
+const Account = () => (
     <div>
-        <form>
-            <TextField
-                id="text"
-                name="text"
-                value="Talk that talk!"
-                margin="dense"
-            />
-        </form>
+        <h1>Account</h1>
+        <div>
+            <h2>Posts</h2>
+            <h2>Bio</h2>
+            <NavLink to="/settings">
+                Settings
+            </NavLink>
+        </div>
+        <BottomNav/>
     </div>
 )
 
-export default Upload;
+export default Account;

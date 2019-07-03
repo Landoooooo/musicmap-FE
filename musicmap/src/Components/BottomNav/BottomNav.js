@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
+import DialogContent from '@material-ui/core/DialogContent';
 import styled from "styled-components";
 import Upload from '../Upload/Upload';
 import { NavLink } from "react-router-dom";
@@ -31,10 +32,12 @@ class BottomNav extends React.Component{
                 <div onClick={() => this.openUpload()}>
                     <p>Upload</p>
                     { this.state.upload &&
-                        <Modal 
+                        <Modal
                             open={this.state.upload}
                         >
-                            <Upload/>
+                            <DialogContent style={{display:"flex", height:"100%", justifyContent:"center", alignItems:"center"}}>
+                                <Upload/>
+                            </DialogContent>
                         </Modal>
                     }
                 </div>
@@ -43,6 +46,9 @@ class BottomNav extends React.Component{
                 </NavLink>
                 <NavLink to="/dashboard">
                     Feed
+                </NavLink>
+                <NavLink to="/account">
+                    Account
                 </NavLink>
             </div>
         )

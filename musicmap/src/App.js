@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import SignInOrSignUp from './Components/Auth/SignInOrSignUp';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Search from './Components/Dashboard/Search';
+import Account from './Components/Account/Account';
+import Settings from './Components/Account/Settings';
 import './App.css';
+
 
 
 function App() {
@@ -12,6 +15,8 @@ function App() {
       <Route exact path="/login" component={SignInOrSignUp}/>
       <Route path="/dashboard" component={Dashboard}/>
       <Route path="/search" component={Search}/>
+      <Route path="/account" component={Account}/>
+      <Route path="/settings" component={Settings}/>
     </div>
   );
 }
