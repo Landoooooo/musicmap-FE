@@ -6,6 +6,9 @@ module.exports = gql`
         getCurrentUser: User
         getUserBy(param: String!, value: String!): User
         getUserById(userId: ID!): User
+
+        #//*Status
+        allStatus(user_id: ID!): Status!
     }
 
     type Mutation {
@@ -16,6 +19,10 @@ module.exports = gql`
 
         #//*AWS
         signS3(filename: String!, filetype: String!): S3Payload!
+
+        #//*Status
+        newStatus(input: StatusInput!): Status!
+        deleteStatus(id: ID!): Int!
     }
 
     scalar Date
@@ -34,10 +41,10 @@ module.exports = gql`
     type Status {
         id: ID!
         user_id: User!
-        text: String!
-        photo: String!
-        video: String!
-        audio: String!
+        text: String
+        photo: String
+        video: String
+        audio: String
     }
 
     type S3Payload {
@@ -53,7 +60,14 @@ module.exports = gql`
         location: String!
         type: String!
         profile_photo: String
+    }
 
+    input StatusInput {
+        user_id: Int!
+        text: String
+        photo: String
+        video: String
+        audio: String
     }
 
 `;

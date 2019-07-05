@@ -16,7 +16,7 @@ class BottomNav extends React.Component{
 
     openUpload = () => {
         this.setState({
-            upload: !this.state.upload
+            upload: true
         })
     }
 
@@ -34,6 +34,7 @@ class BottomNav extends React.Component{
                     { this.state.upload &&
                         <Modal
                             open={this.state.upload}
+                            onClose={() => this.closeUpload}
                         >
                             <DialogContent style={{display:"flex", height:"100%", justifyContent:"center", alignItems:"center"}}>
                                 <Upload/>
