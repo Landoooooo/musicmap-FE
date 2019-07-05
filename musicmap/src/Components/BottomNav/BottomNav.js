@@ -18,30 +18,32 @@ class BottomNav extends React.Component{
         this.setState({
             upload: true
         })
+        console.log(this.state.upload)
     }
 
     closeUpload = () => {
+        console.log(this.state.upload)
         this.setState({
-            upload: !this.state.upload
+            upload: false
         })
     }
 
     render(){
         return(
             <div>
-                <div onClick={() => this.openUpload()}>
-                    <p>Upload</p>
-                    { this.state.upload &&
-                        <Modal
-                            open={this.state.upload}
-                            onClose={() => this.closeUpload}
-                        >
-                            <DialogContent style={{display:"flex", height:"100%", justifyContent:"center", alignItems:"center"}}>
-                                <Upload/>
-                            </DialogContent>
-                        </Modal>
-                    }
+                <div>
+                    <p onClick={this.openUpload}>Upload</p>
                 </div>
+                <Modal
+                    aria-labelledby="simple-modal-upload"
+                    aria-describedby="simple-modal-newStatus"
+                    open={this.state.upload}
+                    onClose={this.closeUpload}
+                    style={{display:"flex", height:"100%", justifyContent:"center", alignItems:"center"}}
+                >
+                    <Upload/>
+
+                </Modal>
                 <NavLink to="/search">
                     Search
                 </NavLink>

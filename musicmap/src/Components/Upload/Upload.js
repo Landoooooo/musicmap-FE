@@ -20,6 +20,14 @@ const UploadForm = styled.div`
     background:red;
 `;
 
+const currentUserId = gql`
+    {
+        getCurrentUser{
+            id
+        }
+    }
+`;
+
 class Upload extends React.Component {
     constructor(props){
         super(props);
@@ -30,6 +38,24 @@ class Upload extends React.Component {
             video: "",
             audio: ""
         }
+    }
+
+    componentDidMount(){
+        const idToken = localStorage.getItem("token");
+
+        const client = new ApolloClient({
+            uri: "http://localhost:4000",
+            headers: {authorization: idToken}
+
+        })
+
+        client.query({
+            query: currentUserId
+        }).then(response => {
+            this.setState({
+                user_id: response.data.getCurrentUser.id
+            })
+        })
     }
 
     onDrop = async file => {
@@ -77,7 +103,7 @@ class Upload extends React.Component {
     };
 
 
-    bundleUserInfo = e => {
+    bundleStatus = e => {
         e.preventDefault()
         const { photo, audio, video } = this.state;
 
@@ -109,7 +135,6 @@ class Upload extends React.Component {
             console.log(response)
             const { signedRequest, url } = response.data.signS3;
 
-
             this.setState({
                 state: url
             })
@@ -118,7 +143,16 @@ class Upload extends React.Component {
 
         }).catch( err => console.log(err))
 
-        this.props.addUser(user)
+        client.mutate({
+            mutation: newStatus,
+            variables: {
+                StatusInput: {
+
+                }
+            }
+        })
+
+
     };
 
     render(){
@@ -171,6 +205,6 @@ const s3Sign = gql`
             url
         }
     }
-`
+`;
 
 export default graphql(s3Sign)(Upload);
