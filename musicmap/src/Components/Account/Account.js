@@ -1,8 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
+import StatusCard from './StatusCard';
 import { NavLink } from "react-router-dom";
 import BottomNav from '../BottomNav/BottomNav';
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag"
+
+const ProfilePhotoContainer = styled.div`
+    display:flex;
+    justify-content:center;
+    height:150px;
+    width:100%;
+`;
 
 const userStatus = gql`
     query($user_id: ID!){
@@ -82,13 +91,16 @@ class Account extends React.Component{
         return(
             <div>
                 { this.state.userInfo ? (
-                    <div>
-                        <h1>{this.state.userInfo.username}</h1>
-                        <h2>{this.state.userInfo.location}</h2>
-                        <span>{this.state.userInfo.type}</span>
-                        <div>
-                            <img alt="profile_photo" src={`${this.state.userInfo.profile_photo}`}/>
-                        </div>
+                    <div style={{marginTop:"50px"}}>
+                        <ProfilePhotoContainer>
+                            <img style={{width:"200px", borderRadius:"50%"}} alt="profile_photo" src={`${this.state.userInfo.profile_photo}`}/>
+                        </ProfilePhotoContainer>
+                        <p>{this.state.userInfo.username} | {this.state.userInfo.type}</p>
+                        <p>{this.state.userInfo.location}</p>
+                        <h2>Bio</h2>
+                        <NavLink to="/settings">
+                            Settings
+                        </NavLink>
                     </div>
                 ) : (
                     <div>
@@ -97,15 +109,21 @@ class Account extends React.Component{
                 )
 
                 }
-            <div>
-                <h2>Posts</h2>
-                <h2>Bio</h2>
-                <NavLink to="/settings">
-                    Settings
-                </NavLink>
+                <div style={{padding:"20px"}}>
+                    {
+                        this.state.status ? (
+                            this.state.status.map( status => {
+                                return(
+                                    <StatusCard status={status}/>
+                                )
+                            })
+                        ) : (
+                            <div>Loading...</div>
+                        )
+                    }
+                </div>
+                <BottomNav/>
             </div>
-            <BottomNav/>
-    </div>
         )
     }
 }
