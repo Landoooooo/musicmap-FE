@@ -68,10 +68,15 @@ class Upload extends React.Component {
 
         console.log(this.state.user_id)
         const fileType = file[0].type;
-        console.log(fileType)
+        console.log(fileType.toString())
 
-        switch(fileType){
-            case "image/jpeg" || "image/png":
+        switch(fileType.toString()){
+            case "image/jpeg":
+                this.setState({
+                    photo: file[0]
+                })
+                break;
+            case "image/png":
                 this.setState({
                     photo: file[0]
                 })
@@ -81,7 +86,7 @@ class Upload extends React.Component {
                     audio: file[0]
                 })
                 break;
-            case "video/mp3":
+            case "video/mp4":
                 this.setState({
                     video: file[0]
                 })
@@ -101,13 +106,28 @@ class Upload extends React.Component {
     };
 
     formatFilename = filename => {
+        console.log(filename)
         const date = moment().format("YYYYMMDD");
         const randomString = Math.random()
           .toString(36)
           .substring(2, 7);
         const cleanFileName = filename.toString().toLowerCase().replace(/[^a-z0-9]/g, "-");
-        const newFilename = `images/${date}-${randomString}-${cleanFileName}`;
-        return newFilename.substring(0, 60);
+        switch(filename.type){
+            case "image/jpeg":
+                const newJpegFilename = `images/${date}-${randomString}-${cleanFileName}`;
+                return newJpegFilename.substring(0, 60);
+            case "image/png":
+                const newPngFilename = `images/${date}-${randomString}-${cleanFileName}`;
+                return newPngFilename.substring(0, 60);
+            case "audio/mp3":
+                const newMp3Filename = `audio/${date}-${randomString}-${cleanFileName}`;
+                return newMp3Filename.substring(0, 60);
+            case "video/mp4":
+                const newMp4Filename = `video/${date}-${randomString}-${cleanFileName}`;
+                return newMp4Filename.substring(0, 60);
+            default:
+                console.log("testing switch")
+        }
     };
 
 
@@ -136,12 +156,12 @@ class Upload extends React.Component {
             uri: "http://localhost:4000"
         })
 
-
+        console.log(state)
         await client.mutate({
             mutation: s3Sign,
             variables: {
-                filename: this.formatFilename(photo.path || audio.path ||  video.path),
-                filetype: state
+                filename: this.formatFilename(photo || audio || video),
+                filetype: (photo.type || audio.type || video.type)
             }
         }).then( response => {
             console.log(response)
@@ -175,7 +195,7 @@ class Upload extends React.Component {
                 input: {
                     user_id: parseInt(this.state.user_id),
                     text: this.state.text,
-                    photo: this.state.photo || this.state.video || this.state.audio
+                    [state]: this.state.photo || this.state.video || this.state.audio
                 }
             }
         }).then( response => {
@@ -221,6 +241,7 @@ const newStatus = gql`
             id
             user_id
             text
+            photo
         }
     }
 `;
