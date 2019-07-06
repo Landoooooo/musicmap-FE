@@ -58,12 +58,20 @@ class Upload extends React.Component {
         })
     }
 
+    handleChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     onDrop = async file => {
+
+        console.log(this.state.user_id)
         const fileType = file[0].type;
         console.log(fileType)
 
         switch(fileType){
-            case "image/jpeg":
+            case "image/jpeg" || "image/png":
                 this.setState({
                     photo: file[0]
                 })
@@ -103,9 +111,11 @@ class Upload extends React.Component {
     };
 
 
-    bundleStatus = e => {
+    bundleStatus = async e => {
         e.preventDefault()
         const { photo, audio, video } = this.state;
+
+        console.log("test", photo, audio, video)
 
         const statusType = {
             photo,
@@ -120,38 +130,57 @@ class Upload extends React.Component {
         });
 
         const state = checkStatus[0];
+        console.log(state)
 
         const client = new ApolloClient({
             uri: "http://localhost:4000"
         })
 
-        client.mutate({
+
+        await client.mutate({
             mutation: s3Sign,
             variables: {
-                filename: this.formatFilename(state),
-                filetype: (state.type)
+                filename: this.formatFilename(photo.path || audio.path ||  video.path),
+                filetype: state
             }
         }).then( response => {
             console.log(response)
             const { signedRequest, url } = response.data.signS3;
+            console.log(url)
 
-            this.setState({
-                state: url
-            })
+            if(photo){
+                this.setState({
+                    photo: url
+                })
 
-            this.uploadToS3(state, signedRequest)
+                this.uploadToS3(photo, signedRequest)
+            }else if(audio){
+                this.setState({
+                    audio: url
+                })
 
+                this.uploadToS3(audio, signedRequest)
+            }else{
+                this.setState({
+                    video: url
+                })
+
+                this.uploadToS3(video, signedRequest)
+            }
         }).catch( err => console.log(err))
 
-        client.mutate({
+        await client.mutate({
             mutation: newStatus,
             variables: {
-                StatusInput: {
-
+                input: {
+                    user_id: parseInt(this.state.user_id),
+                    text: this.state.text,
+                    photo: this.state.photo || this.state.video || this.state.audio
                 }
             }
+        }).then( response => {
+            console.log(response)
         })
-
 
     };
 
@@ -159,12 +188,13 @@ class Upload extends React.Component {
         return(
             <UploadForm>
                 <h2>New Drop!</h2>
-                <form onSubmit={() => console.log("test")}>
+                <form onSubmit={this.bundleStatus}>
                     <TextField
                         id="text"
                         name="text"
-                        value={this.state.value}
+                        value={this.state.text}
                         margin="dense"
+                        onChange={this.handleChange}
                     />
                     <Dropzone onDrop={this.onDrop}>
                         {({getRootProps, getInputProps}) => (
@@ -191,9 +221,6 @@ const newStatus = gql`
             id
             user_id
             text
-            photo
-            video
-            audio
         }
     }
 `;

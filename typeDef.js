@@ -21,7 +21,7 @@ module.exports = gql`
         signS3(filename: String!, filetype: String!): S3Payload!
 
         #//*Status
-        newStatus(input: StatusInput!): Status!
+        newStatus(input: StatusInput!): Status
         deleteStatus(id: ID!): Int!
     }
 
@@ -40,7 +40,7 @@ module.exports = gql`
 
     type Status {
         id: ID!
-        user_id: User!
+        user_id: ID!
         text: String
         photo: String
         video: String
