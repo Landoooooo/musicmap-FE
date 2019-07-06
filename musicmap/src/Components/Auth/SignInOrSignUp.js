@@ -1,6 +1,5 @@
 import React from 'react';
 import LoginForm from "./LoginForm";
-import { BrowserRouter as Redirect} from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 import ApolloClient from "apollo-boost";
 import { gql } from "apollo-boost";
@@ -17,6 +16,7 @@ const ADD_USER = gql`
   mutation addUser($input: UserInput!) {
     addUser(input: $input) {
       id
+      profile_photo
     }
   }
 `;
@@ -44,10 +44,6 @@ class SignInOrSignUp extends React.Component{
             type: "",
             profile_photo: ""
         }
-    }
-
-    componentDidMount(){
-      console.log(process.env.REACT_APP_PLACES_API_KEY)
     }
 
     onSuccess = async googleUser => {
@@ -104,7 +100,12 @@ class SignInOrSignUp extends React.Component{
               input: userObj
             }
           })
-          .then(response => this.setState({ toDashboard: !this.state.toDashboard }))
+          .then(response => {
+            console.log(response)
+            this.setState({
+              toDashboard: !this.state.toDashboard
+            })
+          })
           .catch(err => {
               console.log("create", err)
           });

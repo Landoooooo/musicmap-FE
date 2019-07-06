@@ -8,7 +8,7 @@ module.exports = gql`
         getUserById(userId: ID!): User
 
         #//*Status
-        allStatus(user_id: ID!): Status!
+        allStatus(user_id: ID!): [Status!]
     }
 
     type Mutation {

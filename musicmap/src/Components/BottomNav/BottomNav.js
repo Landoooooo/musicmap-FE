@@ -1,7 +1,5 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
-import DialogContent from '@material-ui/core/DialogContent';
-import styled from "styled-components";
 import Upload from '../Upload/Upload';
 import { NavLink } from "react-router-dom";
 

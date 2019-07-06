@@ -60,25 +60,16 @@ class LoginForm extends React.Component {
         return newFilename.substring(0, 60);
     };
 
-    bundleUserInfo = e => {
+    bundleUserInfo = async e => {
         e.preventDefault()
-        const { profile_photo } = this.state;
+        let { profile_photo } = this.state;
 
-        const user = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            username: this.state.username,
-            email: this.state.email,
-            location: this.state.location,
-            type: this.state.type,
-            profile_photo: this.state.profile_photo.path
-        }
-
+        console.log(profile_photo.type)
         const client = new ApolloClient({
             uri: "http://localhost:4000"
         })
 
-        client.mutate({
+        await client.mutate({
             mutation: s3Sign,
             variables: {
                 filename: this.formatFilename(profile_photo),
@@ -94,9 +85,18 @@ class LoginForm extends React.Component {
 
             this.uploadToS3(profile_photo, signedRequest)
 
-        }).catch( err => console.log(err))
+            const user = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                username: this.state.username,
+                email: this.state.email,
+                location: this.state.location,
+                type: this.state.type,
+                profile_photo: this.state.profile_photo
+            }
 
-        this.props.addUser(user)
+            this.props.addUser(user)
+        }).catch( err => console.log(err))
     };
     handleChange = e => {
         this.setState({
