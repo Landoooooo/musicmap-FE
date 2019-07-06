@@ -87,7 +87,6 @@ class Account extends React.Component{
     }
 
     render(){
-        console.log(this.state.userInfo.profile_photo)
         return(
             <div>
                 { this.state.userInfo ? (
