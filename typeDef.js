@@ -1,6 +1,8 @@
 const { gql } = require("apollo-server");
 
 module.exports = gql`
+    union Result = User | Status
+
     type Query {
         #//*User
         getCurrentUser: User
@@ -9,6 +11,9 @@ module.exports = gql`
 
         #//*Status
         allStatus(user_id: ID!): [Status!]
+
+        #//*Search
+        search(text: String!): [Result]!
     }
 
     type Mutation {

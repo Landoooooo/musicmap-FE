@@ -1,56 +1,76 @@
 import React from "react";
 import BottomNav from '../BottomNav/BottomNav';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import ApolloClient from 'apollo-boost';
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 
-const Search = () => (
-  <div>
-    <h1>Pinned</h1>
-    <div>
-      <input />
-    </div>
-    <div>
+const searchQuery = gql`
+  query($text: String!){
+    search(text: $text){
+      ... on User{
+        username
+      }
+      ... on Status{
+        text
+      }
+    }
+  }
+`;
+
+class Search extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      text: "",
+      results: []
+    }
+  }
+
+
+  search = e => {
+    e.preventDefault();
+
+    const client = new ApolloClient({
+      uri: "http://localhost:4000"
+    })
+
+    client.query({
+      query: searchQuery,
+      variables: {
+        text: this.state.text
+      }
+    }).then( response => {
+      console.log(response)
+    })
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  render(){
+    return(
       <div>
-        <div>
-          <p>Photo</p>
-          <p>Name</p>
-        </div>
-        <div>
-          <p>View Profile</p>
-          <p>Message Icon</p>
-        </div>
+        <form onSubmit={this.search}>
+          <TextField
+            id="text"
+            name="text"
+            value={this.state.text}
+            margin="dense"
+            onChange={this.handleChange}
+          />
+          <Button variant="contained" color="primary" type="submit">
+            Search
+          </Button>
+        </form>
+        <BottomNav/>
       </div>
-      <div>
-        <div>
-          <p>Photo</p>
-          <p>Name</p>
-        </div>
-        <div>
-          <p>View Profile</p>
-          <p>Message Icon</p>
-        </div>
-      </div>
-      <div>
-        <div>
-          <p>Photo</p>
-          <p>Name</p>
-        </div>
-        <div>
-          <p>View Profile</p>
-          <p>Message Icon</p>
-        </div>
-      </div>
-      <div>
-        <div>
-          <p>Photo</p>
-          <p>Name</p>
-        </div>
-        <div>
-          <p>View Profile</p>
-          <p>Message Icon</p>
-        </div>
-      </div>
-    </div>
-    <BottomNav/>
-  </div>
-);
+    )
+  }
+}
+
 
 export default Search;
