@@ -1,0 +1,7 @@
+overwrite: true
+schema: "http://localhost:4000"
+documents: "src/generated/graphql.js"
+generates:
+   src/generated/graphql.js:
+    plugins:
+      - fragment-matcher

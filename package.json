@@ -10,12 +10,12 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "google-auth-library": "^4.2.0",
-    "graphql": "^14.3.1",
     "graphql-merge-resolvers": "^1.1.11",
     "knex": "^0.17.3",
     "sqlite3": "^4.0.8"
   },
   "devDependencies": {
+    "graphql": "^14.4.2",
     "nodemon": "^1.19.1"
   },
   "scripts": {

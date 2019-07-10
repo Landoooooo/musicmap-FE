@@ -3,12 +3,12 @@ import BottomNav from '../BottomNav/BottomNav';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ApolloClient from 'apollo-boost';
-import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
 const searchQuery = gql`
   query($text: String!){
     search(text: $text){
+      __typename
       ... on User{
         username
       }
@@ -41,8 +41,10 @@ class Search extends React.Component {
       variables: {
         text: this.state.text
       }
-    }).then( response => {
+    }).then(response => {
       console.log(response)
+    }).catch(err => {
+      console.log("ERROR", err)
     })
   }
 
