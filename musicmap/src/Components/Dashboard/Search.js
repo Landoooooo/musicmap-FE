@@ -38,6 +38,7 @@ class Search extends React.Component {
 
     client.query({
       query: searchQuery,
+      fetchPolicy: 'no-cache',
       variables: {
         text: this.state.text
       }

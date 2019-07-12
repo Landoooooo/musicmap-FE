@@ -190,13 +190,21 @@ class Upload extends React.Component {
             }
         }).catch( err => console.log(err))
 
+        const file = () => {
+            if(this.state.photo || this.state.video || this.state.audio){
+                return (this.state.photo || this.state.video || this.state.audio)
+            }else{
+                return null
+            }
+        }
+
         await client.mutate({
             mutation: newStatus,
             variables: {
                 input: {
                     user_id: parseInt(this.state.user_id),
                     text: this.state.text,
-                    [state]: this.state.photo || this.state.video || this.state.audio
+                    [state]: file
                 }
             }
         }).then( response => {
@@ -240,9 +248,6 @@ const newStatus = gql`
     mutation($input: StatusInput!){
         newStatus(input: $input){
             id
-            user_id
-            text
-            photo
         }
     }
 `;

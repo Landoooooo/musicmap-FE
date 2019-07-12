@@ -8,7 +8,8 @@ module.exports = {
     remove
 }
 function findBy(filter){
-    return db("userStatus").where(filter)
+    const likeText = `%${filter.text}%`
+    return db("userStatus").where('text', 'like', likeText)
 }
 
 function findById(id){

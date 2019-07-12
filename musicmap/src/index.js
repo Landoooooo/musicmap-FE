@@ -9,7 +9,7 @@ import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache, IntrospectionFragmentMatcher } from "apollo-cache-inmemory";
 
-import introspectionResult from './generated/graphql';
+import introspectionResult from './graphql.schema.json';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -22,15 +22,15 @@ const httpLink = createHttpLink({
 });
 
 const cache = new InMemoryCache({
-    fragmentMatcher,
+    fragmentMatcher
 })
 
 const client = new ApolloClient({
+    cache,
     link: httpLink,
     fetchOptions: {
         mode: 'no-cors'
-    },
-    cache
+    }
 })
 
 ReactDOM.render(
