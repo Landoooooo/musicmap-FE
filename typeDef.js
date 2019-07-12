@@ -13,7 +13,7 @@ module.exports = gql`
         allStatus(user_id: ID!): [Status!]
 
         #//*Search
-        search(text: String!): [Result]!
+        search(text: String!): [Result]
     }
 
     type Mutation {

@@ -5,6 +5,8 @@ import Button from '@material-ui/core/Button';
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag";
 
+
+// Change text to query for search
 const searchQuery = gql`
   query($text: String!){
     search(text: $text){

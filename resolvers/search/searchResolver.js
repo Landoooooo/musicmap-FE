@@ -4,28 +4,22 @@ const User = require("../../models/usersModel");
 module.exports = {
     Query: {
         search: async (root, args, ctx) => {
-            console.log(args.text);
-
-            const texts = args.text
-
-            const text = await Status.findBy({text: texts})
-
-            return text;
+            if(args.text){
+                const result = await Status.findBy({text: args.text})
+                const user = await User.findBy({"username": args.text})
+                console.log("search", [result, user])
+                return result
+            }
         }
     },
 
     Result: {
-        __resolveType(obj, context, info){
-            console.log("obj",obj)
-            if(obj.username){
-                return 'User'
+        async __resolveType(obj, context, info){
+            console.log("Object", obj)
+            if(obj.text && obj.username){
+                const result = 'Status'
+                return result
             }
-
-            if(obj.text){
-                return 'Status'
-            }
-
-            return null;
         }
     }
 }
