@@ -5,6 +5,9 @@ import Button from '@material-ui/core/Button';
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag";
 
+import Profile from "../Account/Profile";
+import StatusCard from "../Account/StatusCard";
+
 
 // Change text to query for search
 const searchQuery = gql`
@@ -13,9 +16,15 @@ const searchQuery = gql`
       __typename
       ... on User{
         username
+        type
+        profile_photo
       }
       ... on Status{
+        user_id
         text
+        photo
+        video
+        audio
       }
     }
   }
@@ -26,7 +35,7 @@ class Search extends React.Component {
     super(props);
     this.state = {
       text: "",
-      results: []
+      queryResult: []
     }
   }
 
@@ -45,7 +54,16 @@ class Search extends React.Component {
         text: this.state.text
       }
     }).then(response => {
-      console.log(response)
+      const data = response.data.search
+
+      const userStatus = data.filter(status => status)
+      const username = data.filter(user => user)
+
+      this.setState({
+        queryResult: userStatus || username
+      })
+
+      console.log(this.state.queryResult)
     }).catch(err => {
       console.log("ERROR", err)
     })
@@ -59,18 +77,29 @@ class Search extends React.Component {
   render(){
     return(
       <div>
-        <form onSubmit={this.search}>
-          <TextField
-            id="text"
-            name="text"
-            value={this.state.text}
-            margin="dense"
-            onChange={this.handleChange}
-          />
-          <Button variant="contained" color="primary" type="submit">
-            Search
-          </Button>
-        </form>
+        <div>
+          <form onSubmit={this.search}>
+            <TextField
+              id="text"
+              name="text"
+              value={this.state.text}
+              margin="dense"
+              onChange={this.handleChange}
+            />
+            <Button variant="contained" color="primary" type="submit">
+              Search
+            </Button>
+          </form>
+          {
+            this.state.queryResult ? (
+              this.state.queryResult.map(result => {
+                return <StatusCard data={result}/>
+              })
+            ) : (
+              <div>No results</div>
+            )
+          }
+        </div>
         <BottomNav/>
       </div>
     )

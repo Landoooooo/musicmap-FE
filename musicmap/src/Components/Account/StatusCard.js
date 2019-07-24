@@ -12,16 +12,24 @@ const Status =  styled.div`
     border-radius:2%;
 `;
 
-const StatusCard = props => (
-    <Status>
-        <div style={{width:"45%"}}>
-            <p>{props.status.text}</p>
-        </div>
-        <div style={{width:"45%"}}>
-            <img style={{width:"100px", height:"40px"}}alt="status-media" src={props.status.photo}/>
-        </div>
-
-    </Status>
-)
+const StatusCard = props => {
+    if(props.data.text){
+        return <Status>
+                    <div style={{width:"45%"}}>
+                        <p>{props.data.text}</p>
+                    </div>
+                    <div style={{width:"45%"}}>
+                        <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
+                    </div>
+                </Status>
+    }else if(props.data.username){
+        return  <Status>
+                    <div>{props.data.username}</div>
+                    <div>
+                        <img alt="profile" src={props.data.profile_photo}/>
+                    </div>
+                </Status>
+    }
+}
 
 export default StatusCard;

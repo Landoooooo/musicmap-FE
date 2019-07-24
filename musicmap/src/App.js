@@ -4,6 +4,7 @@ import SignInOrSignUp from './Components/Auth/SignInOrSignUp';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Search from './Components/Dashboard/Search';
 import Account from './Components/Account/Account';
+import Profile from './Components/Account/Profile';
 import Settings from './Components/Account/Settings';
 import './App.css';
 
