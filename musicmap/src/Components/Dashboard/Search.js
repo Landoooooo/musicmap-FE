@@ -2,11 +2,13 @@ import React from "react";
 import BottomNav from '../BottomNav/BottomNav';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag";
 
 import Profile from "../Account/Profile";
 import StatusCard from "../Account/StatusCard";
+import styled from "styled-components";
 
 
 // Change text to query for search
@@ -29,6 +31,26 @@ const searchQuery = gql`
     }
   }
 `;
+
+const ResultContainer = styled.div`
+  display:flex;
+  justify-content:center;
+  flex-direction:column;
+  align-items:center;
+  flex-wrap:nowrap;
+  width:100%;
+  margin-top:50px;
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color:black;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
+
 
 class Search extends React.Component {
   constructor(props){
@@ -90,15 +112,17 @@ class Search extends React.Component {
               Search
             </Button>
           </form>
-          {
-            this.state.queryResult ? (
-              this.state.queryResult.map(result => {
-                return <StatusCard data={result}/>
-              })
-            ) : (
-              <div>No results</div>
-            )
-          }
+          <ResultContainer>
+            {
+              this.state.queryResult ? (
+                this.state.queryResult.map(result => {
+                  return <StatusCard data={result}/>
+                })
+              ) : (
+                <div>No results</div>
+              )
+            }
+          </ResultContainer>
         </div>
         <BottomNav/>
       </div>
@@ -108,3 +132,4 @@ class Search extends React.Component {
 
 
 export default Search;
+
