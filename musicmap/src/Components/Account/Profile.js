@@ -2,8 +2,10 @@ import React from 'react';
 
 
 const Profile = props => {
+    const username = props.match.params.username
+    console.log(username)
     return  <div>
-                user profile
+                <p>{username}</p>
             </div>
 }
 
