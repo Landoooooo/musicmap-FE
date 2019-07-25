@@ -18,6 +18,7 @@ function App() {
       <Route path="/search" component={Search}/>
       <Route path="/account" component={Account}/>
       <Route path="/settings" component={Settings}/>
+      <Route exact path="/:username" component={Profile}/>
     </div>
   );
 }

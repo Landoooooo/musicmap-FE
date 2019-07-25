@@ -2,11 +2,9 @@ import React from "react";
 import BottomNav from '../BottomNav/BottomNav';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag";
 
-import Profile from "../Account/Profile";
 import StatusCard from "../Account/StatusCard";
 import styled from "styled-components";
 
@@ -40,15 +38,6 @@ const ResultContainer = styled.div`
   flex-wrap:nowrap;
   width:100%;
   margin-top:50px;
-`;
-
-const StyledLink = styled(Link)`
-    text-decoration: none;
-    color:black;
-
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
 `;
 
 

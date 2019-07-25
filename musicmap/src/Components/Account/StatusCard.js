@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import ApolloClient from 'apollo-boost';
+import gql from "graphql-tag";
 
 const Status =  styled.div`
     display:flex;
@@ -15,6 +17,14 @@ const Status =  styled.div`
     width:75%;
 `;
 
+const GET_USER = gql`
+    query($userId: ID!){
+        getUserById(userId: $userId){
+            username
+        }
+    }
+`
+
 const StyledLink = styled(Link)`
     text-decoration: none;
     color:black;
@@ -24,15 +34,20 @@ const StyledLink = styled(Link)`
     }
 `;
 
+
+
 const StatusCard = props => {
+    const [username, setUsername] = useState('')
+    getUsername(props.data.user_id, setUsername)
+    console.log(username)
     if(props.data.text){
         return <Status>
-                    <StyledLink to={`/${props.data.user_id}`} style={{width:"45%"}}>
+                    <StyledLink to={`/${username}`} params={{userId: props.data.user_id}} style={{width:"45%"}}>
                         <div>
                             <p>{props.data.text}</p>
                         </div>
                     </StyledLink>
-                    <StyledLink to={`/${props.data.user_id}`} style={{width:"45%"}}>
+                    <StyledLink to={`/${username}`} params={{userId: props.data.user_id}} style={{width:"45%"}}>
                         <div>
                             <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
                         </div>
@@ -40,7 +55,7 @@ const StatusCard = props => {
                 </Status>
     }else if(props.data.username){
         return  <Status>
-                    <StyledLink to={`/${props.data.user_id}`} style={{width:"45%"}}>
+                    <StyledLink to={`/${props.data.username}`} params={{userInfo: props.data.username}}style={{width:"45%"}}>
                         <div>
                             <p>{props.data.username}</p>
                             <img alt="profile" src={props.data.profile_photo}/>
@@ -51,6 +66,20 @@ const StatusCard = props => {
                     </div>
                 </Status>
     }
+}
+
+
+const getUsername = async (id, setUsername) => {
+    const client = new ApolloClient({
+        uri: "http://localhost:4000"
+    })
+
+   await client.query({
+        query: GET_USER,
+        variables: {
+            userId: id
+        }
+    }).then(res => setUsername(res.data.getUserById.username))
 }
 
 export default StatusCard;
