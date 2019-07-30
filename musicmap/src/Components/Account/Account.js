@@ -13,6 +13,16 @@ const ProfilePhotoContainer = styled.div`
     width:100%;
 `;
 
+const StatusContainer = styled.div`
+  display:flex;
+  justify-content:center;
+  flex-direction:column;
+  align-items:center;
+  flex-wrap:nowrap;
+  width:100%;
+  margin-top:50px;
+`;
+
 const userStatus = gql`
     query($user_id: ID!){
         allStatus(user_id: $user_id){
@@ -108,18 +118,21 @@ class Account extends React.Component{
                 )
 
                 }
-                <div style={{padding:"20px"}}>
-                    {
-                        this.state.status ? (
-                            this.state.status.map( status => {
-                                return(
-                                    <StatusCard status={status}/>
-                                )
-                            })
-                        ) : (
-                            <div>Loading...</div>
-                        )
-                    }
+                <div>
+                    <StatusContainer>
+                        {
+                            this.state.status ? (
+                                this.state.status.map(status => {
+                                    console.log(status)
+                                    return(
+                                        <StatusCard data={status}/>
+                                    )
+                                })
+                            ) : (
+                                <div>Loading...</div>
+                            )
+                        }
+                    </StatusContainer>
                 </div>
                 <BottomNav/>
             </div>

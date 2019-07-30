@@ -38,16 +38,19 @@ const StyledLink = styled(Link)`
 
 const StatusCard = props => {
     const [username, setUsername] = useState('')
-    getUsername(props.data.user_id, setUsername)
-    console.log(username)
-    if(props.data.text){
+
+    if(props.data.user_id){
+        getUsername(props.data.user_id, setUsername)
+    }
+
+    if(props.data.text || props.data.photo || props.data.video || props.data.audio){
         return <Status>
-                    <StyledLink to={`/${username}`} params={{userId: props.data.user_id}} style={{width:"45%"}}>
+                    <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
                         <div>
                             <p>{props.data.text}</p>
                         </div>
                     </StyledLink>
-                    <StyledLink to={`/${username}`} params={{userId: props.data.user_id}} style={{width:"45%"}}>
+                    <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
                         <div>
                             <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
                         </div>
@@ -55,7 +58,7 @@ const StatusCard = props => {
                 </Status>
     }else if(props.data.username){
         return  <Status>
-                    <StyledLink to={`/${props.data.username}`} params={{userInfo: props.data.username}}style={{width:"45%"}}>
+                    <StyledLink to={`/user/${props.data.username}`} style={{width:"45%"}}>
                         <div>
                             <p>{props.data.username}</p>
                             <img alt="profile" src={props.data.profile_photo}/>
@@ -65,6 +68,8 @@ const StatusCard = props => {
                         <Button variant="contained" color="primary" type="submit">Pin User</Button>
                     </div>
                 </Status>
+    }else{
+        return null;
     }
 }
 

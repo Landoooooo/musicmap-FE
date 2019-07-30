@@ -14,11 +14,11 @@ function App() {
   return (
     <div className="App">
       <Route exact path="/login" component={SignInOrSignUp}/>
-      <Route path="/dashboard" component={Dashboard}/>
-      <Route path="/search" component={Search}/>
-      <Route path="/account" component={Account}/>
-      <Route path="/settings" component={Settings}/>
-      <Route exact path="/:username" component={Profile}/>
+      <Route exact path="/dashboard" component={Dashboard}/>
+      <Route exact path="/search" component={Search}/>
+      <Route exact path="/account" component={Account}/>
+      <Route exact path="/settings" component={Settings}/>
+      <Route exact path="/user/:username" component={Profile}/>
     </div>
   );
 }
