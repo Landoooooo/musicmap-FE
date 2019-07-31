@@ -21,6 +21,7 @@ module.exports = gql`
         addUser(input: UserInput!): User!
         updateUser(id: ID!, input: UserInput!): User!
         deleteUser(id: ID!): Int!
+        pinUser(input: PinUserInput!): Int!
 
         #//*AWS
         signS3(filename: String!, filetype: String!): S3Payload!
@@ -41,6 +42,8 @@ module.exports = gql`
         location: String!
         type: String!
         profile_photo: String
+        status: [Status]
+        pinned: [User]
     }
 
     type Status {
@@ -68,11 +71,16 @@ module.exports = gql`
     }
 
     input StatusInput {
-        user_id: Int!
+        user_id: ID!
         text: String
         photo: String
         video: String
         audio: String
+    }
+
+    input PinUserInput {
+        user_id: ID!
+        username: String!
     }
 
 `;

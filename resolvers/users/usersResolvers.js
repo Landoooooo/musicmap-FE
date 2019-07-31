@@ -1,6 +1,8 @@
 const { AuthenticationError } = require("apollo-server");
 
 const User = require("../../models/usersModel");
+const Status = require("../../models/statusModel");
+const Pinned = require("../../models/pinUserModel");
 
 const authenticated = next => (root, args, ctx, info) => {
     if (!ctx.currentUser) {
@@ -26,6 +28,20 @@ module.exports = {
         }
     },
 
+    User: {
+        status: async (root, args, ctx) => {
+            const allStatus = await Status.findAllById(root.id)
+
+            return allStatus;
+        },
+
+        pinned: async (root, args, ctx) => {
+            const pinnedUsers = await Pinned.find(root.id)
+
+            return pinnedUsers
+        }
+    },
+
     Mutation: {
         addUser: async (root, args, ctx) => {
             const newUser = await User.add(args.input)
@@ -39,6 +55,16 @@ module.exports = {
         updateUser: async (root, args, ctx) => {
             const user = await User.edit(args.id, args.input);
             return user;
+        },
+        pinUser: async (root, args, ctx) => {
+
+            const pinnedUser = await Pinned.pinUser(args.input)
+
+            if(pinnedUser){
+                return 1;
+            }else{
+                return 0
+            }
         }
 
     }
