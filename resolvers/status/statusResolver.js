@@ -3,7 +3,7 @@ const Status = require("../../models/statusModel");
 module.exports = {
     Query: {
        allStatus: async (root, args, ctx) => {
-           const allStatus = await Status.findAllById(args.user_id)
+           const allStatus = await Status.findAllById(root.user_id)
 
            return allStatus;
        }

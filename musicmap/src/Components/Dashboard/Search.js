@@ -15,6 +15,7 @@ const searchQuery = gql`
     search(text: $text){
       __typename
       ... on User{
+        id
         username
         type
         profile_photo

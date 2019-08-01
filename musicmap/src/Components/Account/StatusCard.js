@@ -23,7 +23,13 @@ const GET_USER = gql`
             username
         }
     }
-`
+`;
+
+const PIN_USER = gql`
+    mutation($input: PinUserInput!){
+        pinUser(input: $input)
+    }
+`;
 
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -37,6 +43,7 @@ const StyledLink = styled(Link)`
 
 
 const StatusCard = props => {
+    console.log(props)
     const [username, setUsername] = useState('')
 
     if(props.data.user_id){
@@ -65,7 +72,7 @@ const StatusCard = props => {
                         </div>
                     </StyledLink>
                     <div style={{width:"45%"}}>
-                        <Button variant="contained" color="primary" type="submit">Pin User</Button>
+                        <Button variant="contained" color="primary" onClick={() => pinUser(props.data.id, props.data.username)}>Pin User</Button>
                     </div>
                 </Status>
     }else{
@@ -85,6 +92,21 @@ const getUsername = async (id, setUsername) => {
             userId: id
         }
     }).then(res => setUsername(res.data.getUserById.username))
+}
+
+const pinUser = async (user_id, username) => {
+    const pin = {user_id: user_id, username: username}
+
+    const client = new ApolloClient({
+        uri: "http://localhost:4000"
+    })
+
+    await client.mutate({
+        mutation: PIN_USER,
+        variables: {
+            input: pin
+        }
+    }).then(res => console.log(res))
 }
 
 export default StatusCard;

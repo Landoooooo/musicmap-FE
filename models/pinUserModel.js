@@ -13,6 +13,7 @@ function findById(id) {
 }
 
 async function pinUser(user){
+    console.log("pin",user)
     const [id] = await db("pinnedUsers").insert(user, "id")
 
     return findById(id)
@@ -20,7 +21,7 @@ async function pinUser(user){
 
 async function find(user_id){
     const user = await db("pinnedUsers").where({user_id})
-
+    console.log("user", user)
     return user
 
 }

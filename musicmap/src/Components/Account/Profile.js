@@ -3,6 +3,7 @@ import ApolloClient from 'apollo-boost';
 import styled from 'styled-components';
 import gql from "graphql-tag";
 import StatusCard from './StatusCard';
+import Button from '@material-ui/core/Button';
 
 
 const GET_USER = gql`
@@ -24,6 +25,12 @@ const USER_STATUS = gql`
             video
             audio
         }
+    }
+`;
+
+const PIN_USER = gql`
+    mutation($input: PinUserInput!){
+        pinUser(input: $input)
     }
 `;
 
@@ -55,8 +62,10 @@ const Profile = props => {
     }, [username])
 
     if(userInfo){
-        const {type, profile_photo, location} = userInfo;
+        const {id, type, profile_photo, location} = userInfo;
         getStatus(userInfo, setUserPost);
+
+        console.log(id)
         return (
             <>
                 <div style={{marginTop:"50px"}}>
@@ -66,7 +75,7 @@ const Profile = props => {
                     <p>{username} | {type}</p>
                     <p>{location}</p>
                     <h2>Bio</h2>
-                    <button>Pin User</button>
+                    <Button variant="contained" color="primary" onClick={() => pinUser(id, username)}>Pin User</Button>
                 </div>
                 <StatusContainer>
                     {
@@ -104,7 +113,6 @@ const getUser = async (user, setUserInfo, setUserPost) => {
             value: user
         }
     }).then(res => {
-        console.log(res.data.getUserBy)
         setUserInfo(res.data.getUserBy)
     })
 
@@ -128,5 +136,21 @@ const getStatus = (userInfo, setUserPost) => {
         setUserPost(response.data.allStatus)
     })
 }
+
+const pinUser = async (user_id, username) => {
+    const pin = {user_id: user_id, username: username}
+
+    const client = new ApolloClient({
+        uri: "http://localhost:4000"
+    })
+
+    await client.mutate({
+        mutation: PIN_USER,
+        variables: {
+            input: pin
+        }
+    }).then(res => console.log(res))
+}
+
 
 export default Profile
