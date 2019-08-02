@@ -31,6 +31,14 @@ const searchQuery = gql`
   }
 `;
 
+const CURRENT_USER = gql`
+  query{
+    getCurrentUser{
+      id
+    }
+  }
+`
+
 const ResultContainer = styled.div`
   display:flex;
   justify-content:center;
@@ -47,8 +55,31 @@ class Search extends React.Component {
     super(props);
     this.state = {
       text: "",
-      queryResult: []
+      queryResult: [],
+      user_id: null
     }
+  }
+
+  componentDidMount(){
+    this.getUser()
+  }
+
+  getUser = () => {
+    const idToken = localStorage.getItem("token");
+
+    const client = new ApolloClient({
+      uri: "http://localhost:4000",
+      headers: {authorization: idToken}
+    })
+
+    client.query({
+      query: CURRENT_USER
+    }).then(res => {
+      this.setState({
+        user_id: res.data.getCurrentUser.id
+      })
+    })
+
   }
 
 
@@ -106,7 +137,7 @@ class Search extends React.Component {
             {
               this.state.queryResult ? (
                 this.state.queryResult.map(result => {
-                  return <StatusCard data={result}/>
+                  return <StatusCard data={result} id={this.state.user_id}/>
                 })
               ) : (
                 <div>No results</div>
@@ -119,6 +150,8 @@ class Search extends React.Component {
     )
   }
 }
+
+
 
 
 export default Search;

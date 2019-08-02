@@ -46,7 +46,12 @@ const Feed = () => {
                 <StatusContainer>
                     {
                         pinnedStatus.map(status => {
-                            return <StatusCard data={status}/>
+                            if(status.status.length > 1){
+                                return <StatusCard data={status} showFeed={true}/>
+                            }else{
+                                return <StatusCard data={status} showFeed={false}/>
+                            }
+                            
                         })
                     }
                 </StatusContainer>
@@ -68,6 +73,7 @@ const getFeed = async setPinnedStatus => {
     await client.query({
         query: GET_CURRENT
     }).then(res => {
+        console.log(res)
         setPinnedStatus(res.data.getCurrentUser.pinned)
     })
 }

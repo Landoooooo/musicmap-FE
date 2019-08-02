@@ -79,6 +79,7 @@ module.exports = gql`
     }
 
     input PinUserInput {
+        feed_id: ID!
         user_id: ID!
         username: String!
     }

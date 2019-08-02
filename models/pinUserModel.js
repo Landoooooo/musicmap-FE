@@ -13,15 +13,15 @@ function findById(id) {
 }
 
 async function pinUser(user){
-    console.log("pin",user)
     const [id] = await db("pinnedUsers").insert(user, "id")
 
     return findById(id)
 }
 
-async function find(user_id){
-    const user = await db("pinnedUsers").where({user_id})
-    console.log("user", user)
+async function find(feed_id){
+    console.log("find", feed_id)
+    const user = await db("pinnedUsers").where({feed_id})
+    console.log(user)
     return user
 
 }

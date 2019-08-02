@@ -34,6 +34,14 @@ const PIN_USER = gql`
     }
 `;
 
+const CURRENT_USER = gql`
+  query{
+    getCurrentUser{
+      id
+    }
+  }
+`;
+
 const StatusContainer = styled.div`
   display:flex;
   justify-content:center;
@@ -56,9 +64,11 @@ const Profile = props => {
 
     const [userInfo, setUserInfo] = useState({});
     const [userPosts, setUserPost] = useState([]);
+    const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
         getUser(username, setUserInfo);
+        getCurrentUser(setCurrentUser)
     }, [username])
 
     if(userInfo){
@@ -75,7 +85,7 @@ const Profile = props => {
                     <p>{username} | {type}</p>
                     <p>{location}</p>
                     <h2>Bio</h2>
-                    <Button variant="contained" color="primary" onClick={() => pinUser(id, username)}>Pin User</Button>
+                    <Button variant="contained" color="primary" onClick={() => pinUser(currentUser,id, username)}>Pin User</Button>
                 </div>
                 <StatusContainer>
                     {
@@ -137,8 +147,8 @@ const getStatus = (userInfo, setUserPost) => {
     })
 }
 
-const pinUser = async (user_id, username) => {
-    const pin = {user_id: user_id, username: username}
+const pinUser = async (current, user_id, username) => {
+    const pin = {feed_id: current, user_id: user_id, username: username}
 
     const client = new ApolloClient({
         uri: "http://localhost:4000"
@@ -151,6 +161,21 @@ const pinUser = async (user_id, username) => {
         }
     }).then(res => console.log(res))
 }
+
+const getCurrentUser = setCurrentUser => {
+    const idToken = localStorage.getItem("token");
+
+    const client = new ApolloClient({
+      uri: "http://localhost:4000",
+      headers: {authorization: idToken}
+    })
+
+    client.query({
+      query: CURRENT_USER
+    }).then(res => {
+        setCurrentUser(res.data.getCurrentUser.id)
+    })
+  }
 
 
 export default Profile

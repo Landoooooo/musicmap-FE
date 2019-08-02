@@ -36,7 +36,7 @@ module.exports = {
         },
 
         pinned: async (root, args, ctx) => {
-            console.log("root",root)
+            console.log(root.id)
             const pinnedUsers = await Pinned.find(root.id)
 
             return pinnedUsers
@@ -58,9 +58,8 @@ module.exports = {
             return user;
         },
         pinUser: async (root, args, ctx) => {
-
             const pinnedUser = await Pinned.pinUser(args.input)
-
+            console.log(pinnedUser)
             if(pinnedUser){
                 return 1;
             }else{

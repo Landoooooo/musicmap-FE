@@ -50,33 +50,37 @@ const StatusCard = props => {
         getUsername(props.data.user_id, setUsername)
     }
 
-    if(props.data.text || props.data.photo || props.data.video || props.data.audio){
-        return <Status>
-                    <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
-                        <div>
-                            <p>{props.data.text}</p>
-                        </div>
-                    </StyledLink>
-                    <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
-                        <div>
-                            <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
-                        </div>
-                    </StyledLink>
-                </Status>
-    }else if(props.data.username){
-        return  <Status>
-                    <StyledLink to={`/user/${props.data.username}`} style={{width:"45%"}}>
-                        <div>
-                            <p>{props.data.username}</p>
-                            <img alt="profile" src={props.data.profile_photo}/>
-                        </div>
-                    </StyledLink>
-                    <div style={{width:"45%"}}>
-                        <Button variant="contained" color="primary" onClick={() => pinUser(props.data.id, props.data.username)}>Pin User</Button>
-                    </div>
-                </Status>
+    if(props.feed){
+        return null
     }else{
-        return null;
+        if(props.data.text || props.data.photo || props.data.video || props.data.audio){
+            return <Status>
+                        <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
+                            <div>
+                                <p>{props.data.text}</p>
+                            </div>
+                        </StyledLink>
+                        <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
+                            <div>
+                                <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
+                            </div>
+                        </StyledLink>
+                    </Status>
+        }else if(props.data.username){
+            return  <Status>
+                        <StyledLink to={`/user/${props.data.username}`} style={{width:"45%"}}>
+                            <div>
+                                <p>{props.data.username}</p>
+                                <img alt="profile" src={props.data.profile_photo}/>
+                            </div>
+                        </StyledLink>
+                        <div style={{width:"45%"}}>
+                            <Button variant="contained" color="primary" onClick={() => pinUser(props.id, props.data.id, props.data.username)}>Pin User</Button>
+                        </div>
+                    </Status>
+        }else{
+            return null;
+        }
     }
 }
 
@@ -94,8 +98,8 @@ const getUsername = async (id, setUsername) => {
     }).then(res => setUsername(res.data.getUserById.username))
 }
 
-const pinUser = async (user_id, username) => {
-    const pin = {user_id: user_id, username: username}
+const pinUser = async (feed_id, user_id, username) => {
+    const pin = {feed_id, user_id: user_id, username: username}
 
     const client = new ApolloClient({
         uri: "http://localhost:4000"
