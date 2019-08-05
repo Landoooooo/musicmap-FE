@@ -36,10 +36,14 @@ module.exports = {
         },
 
         pinned: async (root, args, ctx) => {
-            console.log(root.id)
             const pinnedUsers = await Pinned.find(root.id)
-
-            return pinnedUsers
+            const map = pinnedUsers.map(user => user)
+            const user = []
+            for(i = 0; i < map.length; i++){
+                user.push(map[i][0])
+            }
+            console.log("user", user)
+            return user
         }
     },
 

@@ -19,9 +19,22 @@ async function pinUser(user){
 }
 
 async function find(feed_id){
-    console.log("find", feed_id)
-    const user = await db("pinnedUsers").where({feed_id})
-    console.log(user)
-    return user
-
+    try{
+        const pin = db("pinnedUsers").where({feed_id})
+        const test = pin.map( user => {
+            const pinUser = db("users").where("id", user.user_id)
+            if(pinUser){
+                const userTest = pinUser.map(user => {
+                    return user
+                })
+                return userTest
+            }else{
+            }
+        })
+        const help = await test;
+        help.map(helping => helping)
+        return help
+    }catch (e){
+        console.log(e)
+    }
 }
