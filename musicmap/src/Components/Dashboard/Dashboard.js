@@ -14,9 +14,8 @@ class Dashboard extends React.Component{
     render(){
         return(
             <div>
-                <Recommended/>
+                {/* <Recommended/> */}
                 <Feed/>
-                <BottomNav/>
             </div>
         )
     }

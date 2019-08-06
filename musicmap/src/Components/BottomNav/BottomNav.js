@@ -1,6 +1,8 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import Upload from '../Upload/Upload';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from "react-router-dom";
 
 
@@ -42,15 +44,17 @@ class BottomNav extends React.Component{
                     <Upload/>
 
                 </Modal>
-                <NavLink to="/search">
-                    Search
-                </NavLink>
-                <NavLink to="/dashboard">
-                    Feed
-                </NavLink>
-                <NavLink to="/account">
-                    Account
-                </NavLink>
+                <div style={{display:"flex", justifyContent:"space-around", bottom:0,marginBottom: "5px"}}>
+                    <NavLink to="/search">
+                        <FontAwesomeIcon icon={faSearch} size="2x"/>
+                    </NavLink>
+                    <NavLink to="/dashboard">
+                        <FontAwesomeIcon icon={faBars} size="2x"/>
+                    </NavLink>
+                    <NavLink to="/account">
+                        <FontAwesomeIcon icon={faUser} size="2x"/>
+                    </NavLink>
+                </div>
             </div>
         )
     }

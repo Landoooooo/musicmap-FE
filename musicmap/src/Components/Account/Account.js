@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import StatusCard from './StatusCard';
 import { NavLink } from "react-router-dom";
-import BottomNav from '../BottomNav/BottomNav';
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag"
 
@@ -67,7 +66,6 @@ class Account extends React.Component{
         const client = new ApolloClient({
             uri: "http://localhost:4000",
             headers: {authorization: idToken}
-
         })
 
         client.query({
@@ -134,7 +132,6 @@ class Account extends React.Component{
                         }
                     </StatusContainer>
                 </div>
-                <BottomNav/>
             </div>
         )
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
+import BottomNav from './Components/BottomNav/BottomNav';
 import SignInOrSignUp from './Components/Auth/SignInOrSignUp';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Search from './Components/Dashboard/Search';
@@ -19,6 +20,7 @@ function App() {
       <Route exact path="/account" component={Account}/>
       <Route exact path="/settings" component={Settings}/>
       <Route exact path="/user/:username" component={Profile}/>
+      <BottomNav/>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import BottomNav from '../BottomNav/BottomNav';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ApolloClient from 'apollo-boost';
@@ -37,7 +36,7 @@ const CURRENT_USER = gql`
       id
     }
   }
-`
+`;
 
 const ResultContainer = styled.div`
   display:flex;
@@ -79,7 +78,6 @@ class Search extends React.Component {
         user_id: res.data.getCurrentUser.id
       })
     })
-
   }
 
 
@@ -145,7 +143,6 @@ class Search extends React.Component {
             }
           </ResultContainer>
         </div>
-        <BottomNav/>
       </div>
     )
   }

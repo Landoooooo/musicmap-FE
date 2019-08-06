@@ -45,13 +45,10 @@ const Feed = () => {
             <div className="feed">
                 <StatusContainer>
                     {
-                        pinnedStatus.map(status => {
-                            if(status.status.length > 1){
-                                return <StatusCard data={status} showFeed={true}/>
-                            }else{
-                                return <StatusCard data={status} showFeed={false}/>
-                            }
-                            
+                        pinnedStatus.map(results => {
+                            return results.status.map(userStatus => {
+                                return <StatusCard data={userStatus} />
+                            })
                         })
                     }
                 </StatusContainer>
