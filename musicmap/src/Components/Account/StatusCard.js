@@ -15,6 +15,8 @@ const Status =  styled.div`
     box-shadow: 0px 7px 11px -8px rgba(0,0,0,0.71);
     border-radius:2%;
     width:75%;
+    margin-top:50px;
+    background-color:white;
 `;
 
 const GET_USER = gql`
@@ -50,32 +52,39 @@ const StatusCard = props => {
         getUsername(props.data.user_id, setUsername)
     }
 
-
     if(props.data.text || props.data.photo || props.data.video || props.data.audio){
-        return <Status>
-                    <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
-                        <div>
-                            <p>{props.data.text}</p>
-                        </div>
-                    </StyledLink>
-                    <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
-                        <div>
-                            <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
-                        </div>
-                    </StyledLink>
-                </Status>
+        return (
+                    <>
+                        <Status>
+                            <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
+                                <div>
+                                    <p>{props.data.text}</p>
+                                </div>
+                            </StyledLink>
+                            <StyledLink to={`/user/${username}`} style={{width:"45%"}}>
+                                <div>
+                                    <img style={{width:"100px", height:"40px"}} alt="status-media" src={props.data.photo}/>
+                                </div>
+                            </StyledLink>
+                        </Status>
+                    </>
+                )
     }else if(props.data.username){
-        return  <Status>
-                    <StyledLink to={`/user/${props.data.username}`} style={{width:"45%"}}>
-                        <div>
-                            <p>{props.data.username}</p>
-                            <img alt="profile" src={props.data.profile_photo}/>
-                        </div>
-                    </StyledLink>
-                    <div style={{width:"45%"}}>
-                        <Button variant="contained" color="primary" onClick={() => pinUser(props.id, props.data.id, props.data.username)}>Pin User</Button>
-                    </div>
-                </Status>
+        return  (
+                    <>
+                        <Status>
+                            <StyledLink to={`/user/${props.data.username}`} style={{width:"45%"}}>
+                                <div>
+                                    <p>{props.data.username}</p>
+                                    <img alt="profile" src={props.data.profile_photo}/>
+                                </div>
+                            </StyledLink>
+                            <div style={{width:"45%"}}>
+                                <Button variant="contained" color="primary" onClick={() => pinUser(props.id, props.data.id, props.data.username)}>Pin User</Button>
+                            </div>
+                        </Status>
+                    </>
+                )       
     }else{
         return null;
     }

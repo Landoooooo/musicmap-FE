@@ -13,7 +13,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{background:"black", height:"100vh"}}>
       <Route exact path="/login" component={SignInOrSignUp}/>
       <Route exact path="/dashboard" component={Dashboard}/>
       <Route exact path="/search" component={Search}/>

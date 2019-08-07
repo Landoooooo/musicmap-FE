@@ -28,7 +28,6 @@ const StatusContainer = styled.div`
   align-items:center;
   flex-wrap:nowrap;
   width:100%;
-  margin-top:50px;
 `;
 
 
