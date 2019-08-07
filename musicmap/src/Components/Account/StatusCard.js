@@ -42,6 +42,14 @@ const StyledLink = styled(Link)`
     }
 `;
 
+const ProfilePhotoContainer = styled.div`
+    display:flex;
+    justify-content:center;
+    height:100px;
+    width:75%;
+    padding-left:30px;
+`;
+
 
 
 const StatusCard = props => {
@@ -76,7 +84,9 @@ const StatusCard = props => {
                             <StyledLink to={`/user/${props.data.username}`} style={{width:"45%"}}>
                                 <div>
                                     <p>{props.data.username}</p>
-                                    <img alt="profile" src={props.data.profile_photo}/>
+                                    <ProfilePhotoContainer>
+                                        <img alt="profile" src={props.data.profile_photo} style={{width:'100px'}}/>
+                                    </ProfilePhotoContainer>
                                 </div>
                             </StyledLink>
                             <div style={{width:"45%"}}>
@@ -84,7 +94,7 @@ const StatusCard = props => {
                             </div>
                         </Status>
                     </>
-                )       
+                )
     }else{
         return null;
     }

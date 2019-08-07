@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import StatusCard from './StatusCard';
 import { NavLink } from "react-router-dom";
 import ApolloClient from 'apollo-boost';
-import gql from "graphql-tag"
+import gql from "graphql-tag";
 
 const ProfilePhotoContainer = styled.div`
     display:flex;
@@ -71,7 +71,7 @@ class Account extends React.Component{
         client.query({
             query: currentUserId
         }).then(response => {
-            const id = response.data.getCurrentUser.id;
+            console.log(response)
             this.setState({
                 userInfo: {
                     id: response.data.getCurrentUser.id,
@@ -81,12 +81,16 @@ class Account extends React.Component{
                     profile_photo: response.data.getCurrentUser.profile_photo
                 }
             })
+
+            console.log(this.state.userInfo)
+
             client.query({
                 query: userStatus,
                 variables: {
-                    user_id: id
+                    user_id: parseInt(this.state.userInfo.id)
                 }
-            }).then( response => {
+            }).then(response => {
+                console.log(response)
                 this.setState({
                     status: response.data.allStatus
                 })
@@ -98,7 +102,7 @@ class Account extends React.Component{
         return(
             <div>
                 { this.state.userInfo ? (
-                    <div style={{marginTop:"50px"}}>
+                    <div style={{paddingTop:"50px", color:"white"}}>
                         <ProfilePhotoContainer>
                             <img style={{width:"200px", borderRadius:"50%"}} alt="profile_photo" src={`${this.state.userInfo.profile_photo}`}/>
                         </ProfilePhotoContainer>
