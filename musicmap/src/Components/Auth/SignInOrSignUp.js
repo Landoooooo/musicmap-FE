@@ -125,7 +125,7 @@ class SignInOrSignUp extends React.Component{
         return(
             <div>
                 <div>
-                    <h1>Welcome to MusicMap!</h1>
+                    <h1 style={{color:"white", marginTop:0}}>Welcome to MusicMap!</h1>
                 </div>
                 <div>
                     { this.state.checkExistence ? (

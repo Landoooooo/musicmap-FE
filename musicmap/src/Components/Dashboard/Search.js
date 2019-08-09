@@ -117,19 +117,25 @@ class Search extends React.Component {
   }
   render(){
     return(
-      <div>
-        <div>
+      <div style={{paddingTop:"100px"}}>
+        <h1 style={{color:"white", marginTop:0}}>Search</h1>
+        <div >
           <form onSubmit={this.search}>
-            <TextField
-              id="text"
-              name="text"
-              value={this.state.text}
-              margin="dense"
-              onChange={this.handleChange}
-            />
-            <Button variant="contained" color="primary" type="submit">
-              Search
-            </Button>
+            <div>
+              <TextField
+                id="text"
+                name="text"
+                value={this.state.text}
+                margin="dense"
+                onChange={this.handleChange}
+                style={{background:"white"}}
+              />
+            </div>
+            <div>
+              <Button variant="contained" color="primary" type="submit">
+                Search
+              </Button>
+            </div>
           </form>
           <ResultContainer>
             {

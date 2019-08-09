@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import Upload from '../Upload/Upload';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBars, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faBars, faUser, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from "react-router-dom";
 import styled from 'styled-components';
 
@@ -18,11 +18,13 @@ const StyledLink = styled(NavLink)`
 const BottomNavContainer = styled.div`
     display:flex;
     justify-content:center;
+    align-items:center;
     flex-wrap:wrap;
     bottom: 0;
     position:fixed;
-    margin-bottom:10px;
     width:100%;
+    background:black;
+    height:75px;
 `;
 
 
@@ -51,9 +53,6 @@ class BottomNav extends React.Component{
     render(){
         return(
             <BottomNavContainer>
-                <div style={{width:"100%"}}>
-                    <p onClick={this.openUpload}>Upload</p>
-                </div>
                 <Modal
                     aria-labelledby="simple-modal-upload"
                     aria-describedby="simple-modal-newStatus"
@@ -67,6 +66,9 @@ class BottomNav extends React.Component{
                 <div style={{display:"flex", justifyContent:"space-around", bottom:0,marginBottom: "5px", width:"100%"}}>
                     <StyledLink to="/search">
                         <FontAwesomeIcon icon={faSearch} size="2x"/>
+                    </StyledLink>
+                    <StyledLink onClick={this.openUpload}>
+                        <FontAwesomeIcon icon={faPaperPlane} size="2x"/>
                     </StyledLink>
                     <StyledLink to="/dashboard">
                         <FontAwesomeIcon icon={faBars} size="2x"/>

@@ -53,7 +53,6 @@ const ProfilePhotoContainer = styled.div`
 
 
 const StatusCard = props => {
-    console.log("props", props)
     const [username, setUsername] = useState('')
 
     if(props.data.user_id){

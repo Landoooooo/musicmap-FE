@@ -60,25 +60,25 @@ const ProfilePhotoContainer = styled.div`
 `;
 
 const Profile = props => {
-    const username = props.match.params.username;
+    const username = props.match.params.username
+
+    console.log(username)
 
     const [userInfo, setUserInfo] = useState({});
     const [userPosts, setUserPost] = useState([]);
     const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
-        getUser(username, setUserInfo);
         getCurrentUser(setCurrentUser)
-    }, [username])
+        getUser(username, setUserInfo, setUserPost);
+    }, [currentUser])
 
     if(userInfo){
         const {id, type, profile_photo, location} = userInfo;
-        getStatus(userInfo, setUserPost);
-
         console.log(id)
         return (
             <>
-                <div style={{marginTop:"50px"}}>
+                <div style={{paddingTop:"50px"}}>
                     <ProfilePhotoContainer>
                         <img style={{width:"200px", borderRadius:"50%"}} alt="profile_photo" src={`${profile_photo}`}/>
                     </ProfilePhotoContainer>
@@ -112,6 +112,7 @@ const Profile = props => {
 }
 
 const getUser = async (user, setUserInfo, setUserPost) => {
+    console.log(user)
     const client = new ApolloClient({
         uri: "http://localhost:4000"
     })
@@ -124,6 +125,7 @@ const getUser = async (user, setUserInfo, setUserPost) => {
         }
     }).then(res => {
         setUserInfo(res.data.getUserBy)
+        getStatus(res.data.getUserBy, setUserPost)
     })
 
     getStatus(user, setUserPost)

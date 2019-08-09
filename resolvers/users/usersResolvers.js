@@ -42,7 +42,6 @@ module.exports = {
             for(i = 0; i < map.length; i++){
                 user.push(map[i][0])
             }
-            console.log("user", user)
             return user
         }
     },
