@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import ApolloClient from 'apollo-boost';
 import gql from "graphql-tag";
 
+import ProfileImage from './ProfileImage';
+
 const ProfilePhotoContainer = styled.div`
     display:flex;
     justify-content:center;
@@ -103,9 +105,7 @@ class Account extends React.Component{
             <div>
                 { this.state.userInfo ? (
                     <div style={{paddingTop:"50px", color:"white"}}>
-                        <ProfilePhotoContainer>
-                            <img style={{width:"200px", borderRadius:"50%"}} alt="profile_photo" src={`${this.state.userInfo.profile_photo}`}/>
-                        </ProfilePhotoContainer>
+                        <ProfileImage image={this.state.userInfo.profile_photo} user={this.state.userInfo.username}/>
                         <p>{this.state.userInfo.username} | {this.state.userInfo.type}</p>
                         <p>{this.state.userInfo.location}</p>
                         <h2>Bio</h2>

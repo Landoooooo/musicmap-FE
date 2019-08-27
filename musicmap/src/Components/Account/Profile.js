@@ -5,6 +5,8 @@ import gql from "graphql-tag";
 import StatusCard from './StatusCard';
 import Button from '@material-ui/core/Button';
 
+import ProfileImage from './ProfileImage';
+
 
 const GET_USER = gql`
     query($param: String!, $value: String!){
@@ -78,10 +80,8 @@ const Profile = props => {
         console.log(id)
         return (
             <>
-                <div style={{paddingTop:"50px"}}>
-                    <ProfilePhotoContainer>
-                        <img style={{width:"200px", borderRadius:"50%"}} alt="profile_photo" src={`${profile_photo}`}/>
-                    </ProfilePhotoContainer>
+                <div style={{paddingTop:"50px", color:"white"}}>
+                    <ProfileImage image={profile_photo} user={username}/>
                     <p>{username} | {type}</p>
                     <p>{location}</p>
                     <h2>Bio</h2>
